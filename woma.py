@@ -1,13 +1,10 @@
 import requests
 import sys
-with open('workload files' + argv[1], 'r') as fp
 
 # api endoing
 API_ENDPOINT = '<url>'
 
-# api key
-API_KEY = 'XXXXXXXXXXXXXXX'
-
+fp = open('workload files' + str(argv[1]), 'r')
 # for each command line in the workload file, create JSON object and execute GET/POST to API
 line = fp.readline()
 while line:
@@ -47,7 +44,18 @@ while line:
                 'filename':command[2]
             }
         else:
-            print('DUMPLOG parameters unexpected input: ' + command)
+            print('DUMPLOG parameters unexpected, input: ' + command)
 
     else:
-        print("YOU DUMBBBBB? WHY YOU NOT USING THE RIGHT COMMANDDSSSSSSSSS?")
+        print('Command not recognized: ' + command[0])
+
+    # post requests
+    if command[0] == 'ADD' or 'BUY' or 'COMMIT_BUY' or 'CANCEL_BUY'\
+                        or 'SELL' or 'COMMIT_SELL' or 'CANCEL_SELL'\
+                        or 'SET_BUY_AMOUNT' or 'CANCEL_SET_BUY' or 'SET_BUY_TRIGGER'\
+                        or 'SET_SELL_AMOUNT' or 'CANCEL_SET_SELL' or 'SET_SELL_TRIGGER':
+        requests.post(API_ENDPOINT, data)
+    elif command[0] == 'QUOTE' or 'DUMPLOG' or 'DISPLAY_SUMMARY':
+        requests.get(API_ENDPOINT, data)
+    else:
+        print('An error occured... BITTHHCCCHCH >:(')
