@@ -4,7 +4,7 @@ import sys
 # api endoing
 API_ENDPOINT = '<url>'
 
-fp = open('workload files' + str(argv[1]), 'r')
+fp = open('workload files' + str(sys.argv[1]), 'r')
 # for each command line in the workload file, create JSON object and execute GET/POST to API
 line = fp.readline()
 while line:
