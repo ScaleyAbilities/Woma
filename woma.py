@@ -83,7 +83,7 @@ while line:
         # print(requests.post(API_ENDPOINT, headers={'Content-Type': 'application/json'}, data=None, json=data))
         requests.post(API_ENDPOINT, headers={'Content-Type': 'application/json'}, data=None, json=data)
     elif command[0] == 'QUOTE' or 'DUMPLOG' or 'DISPLAY_SUMMARY':
-        print(requests.get(API_ENDPOINT, data))
+        requests.get(API_ENDPOINT, data)
     else:
         print('unexpected request...')
 
