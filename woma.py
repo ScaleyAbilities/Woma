@@ -35,7 +35,7 @@ while line:
             'usr': command[1],
             'params': {
                 'userid': command[1],
-                'stockSymbol': command[2]
+                'stock': command[2]
             }
         }
 
@@ -45,7 +45,7 @@ while line:
             'usr': command[1],
             'params': {
                 'userid': command[1],
-                'stockSymbol': command[2],
+                'stock': command[2],
                 'amount': command[3]
             }
         }
