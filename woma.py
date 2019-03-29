@@ -6,7 +6,7 @@ API_ENDPOINT = 'http://127.0.0.1:80/api/command'
 
 num = 1
 
-program_time = time.perf_counter_ns()
+program_time = time.perf_counter()
 requests_time = 0
 
 # Use a session so that we keep the connection alive
@@ -93,9 +93,9 @@ while line:
                         or 'SET_SELL_AMOUNT' or 'CANCEL_SET_SELL' or 'SET_SELL_TRIGGER':
         # print(data)
         # print(requests.post(API_ENDPOINT, headers={'Content-Type': 'application/json'}, data=None, json=data))
-        request_timer = time.perf_counter_ns()
+        request_timer = time.perf_counter()
         s.post(API_ENDPOINT, headers={'Content-Type': 'application/json'}, data=None, json=data)
-        requests_time += time.perf_counter_ns() - request_timer
+        requests_time += time.perf_counter() - request_timer
     elif command[0] == 'QUOTE' or 'DUMPLOG' or 'DISPLAY_SUMMARY':
         s.get(API_ENDPOINT, data)
     else:
@@ -108,5 +108,5 @@ while line:
 
 fp.close()
 
-print('Total program time:     %dns' % (time.perf_counter_ns() - program_time))
-print('Time spent on requests: %dns' % requests_time)
+print('Total program time:     %.5f sec' % (time.perf_counter() - program_time))
+print('Time spent on requests: %.5f sec' % requests_time)
