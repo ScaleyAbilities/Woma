@@ -86,20 +86,9 @@ while line:
     else:
         print('Command not recognized: ' + command[0])
 
-    # post requests
-    if command[0] == 'ADD' or 'BUY' or 'COMMIT_BUY' or 'CANCEL_BUY'\
-                        or 'SELL' or 'COMMIT_SELL' or 'CANCEL_SELL'\
-                        or 'SET_BUY_AMOUNT' or 'CANCEL_SET_BUY' or 'SET_BUY_TRIGGER'\
-                        or 'SET_SELL_AMOUNT' or 'CANCEL_SET_SELL' or 'SET_SELL_TRIGGER':
-        # print(data)
-        # print(requests.post(API_ENDPOINT, headers={'Content-Type': 'application/json'}, data=None, json=data))
-        request_timer = time.perf_counter()
-        s.post(API_ENDPOINT, headers={'Content-Type': 'application/json'}, data=None, json=data)
-        requests_time += time.perf_counter() - request_timer
-    elif command[0] == 'QUOTE' or 'DUMPLOG' or 'DISPLAY_SUMMARY':
-        s.get(API_ENDPOINT, data)
-    else:
-        print('unexpected request...')
+    request_timer = time.perf_counter()
+    s.post(API_ENDPOINT, headers={'Content-Type': 'application/json'}, data=None, json=data)
+    requests_time += time.perf_counter() - request_timer
 
     sys.stdout.write('Sent Request %d\r' % num)
     num += 1
