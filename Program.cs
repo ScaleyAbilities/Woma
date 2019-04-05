@@ -77,7 +77,7 @@ namespace Woma
 
                         if (commandParams.Length > 2)
                         {
-                            if (command == "SET_BUY_AMOUNT" || command == "SET_SELL_AMOUNT")
+                            if (command == "SET_BUY_TRIGGER" || command == "SET_SELL_TRIGGER")
                                 jsonParams.Add("price", commandParams[2]);
                             else
                                 jsonParams.Add("amount", commandParams[2]);
