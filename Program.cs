@@ -10,7 +10,7 @@ namespace Woma
     class Program
     {
         internal static int Instances = int.Parse(Environment.GetEnvironmentVariable("INSTANCES") ?? "1");
-        internal static int Filename = Environment.GetEnvironmentVariable("WORKLOAD_FILE");
+        internal static string Filename = Environment.GetEnvironmentVariable("WORKLOAD_FILE");
 
         static void Main(string[] args)
         {
