@@ -85,61 +85,44 @@ namespace Woma
             
             Console.WriteLine("Inserting Records...");
 
-            var tasks = new Task[Instances];
-            var inserted = new int[Instances];
-
             for (var i = 0; i < Instances; i++)
             {
-                var instance = i; // Fixes closure issues
-                tasks[instance] = Task.Run(() => {
-                    foreach (var command in groupedCommands[instance])
-                    {                        
-                        var json = new JObject();
-                        json.Add("cmd", command.Name);
-                        json.Add("usr", command.Username);
+                var inserted = 0;
+                foreach (var command in groupedCommands[i])
+                {                        
+                    var json = new JObject();
+                    json.Add("cmd", command.Name);
+                    json.Add("usr", command.Username);
 
-                        var jsonParams = new JObject();
+                    var jsonParams = new JObject();
 
-                        if (command.Name == "DUMPLOG" && command.Params.Length == 1)
-                            jsonParams.Add("filename", command.Params[0]);
+                    if (command.Name == "DUMPLOG" && command.Params.Length == 1)
+                        jsonParams.Add("filename", command.Params[0]);
 
-                        if (command.Params.Length > 1)
-                        {
-                            if (command.Name == "ADD")
-                                jsonParams.Add("amount", command.Params[1]);
-                            else if (command.Name == "DUMPLOG")
-                                jsonParams.Add("filename", command.Params[1]);
-                            else
-                                jsonParams.Add("stock", command.Params[1]);
-                        }
-
-                        if (command.Params.Length > 2)
-                        {
-                            if (command.Name == "SET_BUY_TRIGGER" || command.Name == "SET_SELL_TRIGGER")
-                                jsonParams.Add("price", command.Params[2]);
-                            else
-                                jsonParams.Add("amount", command.Params[2]);
-                        }
-
-                        json.Add("params", jsonParams);
-
-                        RabbitHelper.PushCommand(json, instance + 1);
-                        Interlocked.Increment(ref inserted[instance]);
+                    if (command.Params.Length > 1)
+                    {
+                        if (command.Name == "ADD")
+                            jsonParams.Add("amount", command.Params[1]);
+                        else if (command.Name == "DUMPLOG")
+                            jsonParams.Add("filename", command.Params[1]);
+                        else
+                            jsonParams.Add("stock", command.Params[1]);
                     }
-                });
-            }
 
-            var waitTask = Task.WhenAll(tasks);
+                    if (command.Params.Length > 2)
+                    {
+                        if (command.Name == "SET_BUY_TRIGGER" || command.Name == "SET_SELL_TRIGGER")
+                            jsonParams.Add("price", command.Params[2]);
+                        else
+                            jsonParams.Add("amount", command.Params[2]);
+                    }
 
-            while (!waitTask.IsCompleted)
-            {
-                Task.WaitAny(waitTask, Task.Delay(5000));
+                    json.Add("params", jsonParams);
 
-                Console.WriteLine("");
-                for (var i = 0; i < Instances; i++)
-                {
-                    Console.WriteLine($"Commands {i + 1}: {inserted[i]} entries");
+                    RabbitHelper.PushCommand(json, i + 1);
+                    inserted++;
                 }
+                Console.WriteLine($"Finished Commands {i + 1}, inserted {inserted} commands");
             }
             
             Console.WriteLine("Done.");
