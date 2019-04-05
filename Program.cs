@@ -60,9 +60,14 @@ namespace Woma
                         if (commandParams.Length > 0)
                         {
                             if (command == "DUMPLOG" && commandParams.Length == 1)
+                            {
+                                json.Add("usr", null);
                                 jsonParams.Add("filename", commandParams[0]);
+                            }
                             else
+                            {
                                 json.Add("usr", commandParams[0]);
+                            }
                         }
 
                         if (commandParams.Length > 1)
