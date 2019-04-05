@@ -9,17 +9,18 @@ namespace Woma
 {
     class Program
     {
-        internal static int Instances = int.Parse(Environment.GetEnvironmentVariable("INSTANCES") ?? "10");
+        internal static int Instances = int.Parse(Environment.GetEnvironmentVariable("INSTANCES") ?? "1");
+        internal static int Filename = Environment.GetEnvironmentVariable("WORKLOAD_FILE");
 
         static void Main(string[] args)
         {
-            if (args.Length < 1)
+            if (args.Length < 1 && Filename == null)
             {
                 Console.WriteLine("No file specified.");
                 Environment.Exit(1);
             }
 
-            var filename = args[0];
+            var filename = Filename ?? args[0];
             if (!File.Exists(filename))
             {
                 Console.WriteLine("File doesn't exist.");
